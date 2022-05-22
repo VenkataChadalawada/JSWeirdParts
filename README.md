@@ -151,18 +151,44 @@ person.shoutName2();
 ```
 
 ### Array Methods
-Push - add to end
-Pop - remove from end
-Unshift - add to start
-shift - remove from start
-concat - merge arrays
-includes - look for a value
-indexOf - finding the value index 
-join - creates a string from array
-reverse - reverse an array
-slice - copies a portion of an array
-splice - removes or replaces portion of an array
-sort - sorts an array
+
+- Push : add to end
+- Pop : remove from end
+- Unshift : add to start
+- shift : remove from start
+- concat : merge arrays
+- includes : look for a value
+- indexOf : finding the value index 
+- join : creates a string from array
+- reverse : reverse an array
+- slice : copies a portion of an array
+- splice : removes or replaces portion of an array
+- sort : sorts an array
+
+### DOM : Properties & Methods 
+Methods:-
+--------
+- classList()
+- getAttribute()
+- setAttribute()
+- appendChild()
+- append()
+- prepend()
+- removeChild()
+- remove()
+- createElement()
+
+Properties:-
+--------
+- innerText
+- textContent
+- innerHTML
+- value
+- parentElement
+- children
+- nextSibling
+- previousSibling
+- style
 
 
 
