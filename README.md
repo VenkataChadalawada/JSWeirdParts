@@ -190,6 +190,21 @@ Properties:-
 - previousSibling
 - style
 
+### Event Bubling
 
+``` html
+...
+<body>
+   <p onClick="alert('paragraph clicked')">
+      I am a paragraph
+   <button onClick="alert('button clicked')"> click me </button>
+   </p>
+</body>
+...
+```
+
+Now when you click on button you would see two alerts, first button clicked and second paragraph clicked. event bubbles up from origin to all the way highest level. sometimes we want that effect. Several other times you dont. if we dont want that behaviour we could add `event.stopPropagation()` in the listener where bubbling starts in this case its button.
+
+### Event Delegation
 
 
