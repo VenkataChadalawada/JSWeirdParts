@@ -228,7 +228,101 @@ if event.target.nodeName === LI {
 }
 ```
 
+### how call stack works
+
+when a script calls function, the interpreter adds it to the call stack and then starts carrying out the function.
+Any functions that are called by this function gets further adds up in the call stack and runs when their calls are reached
+when the current fucntion is reached , the interpreter takes it off the stack and resumes execution where it left off in the last code.
+
+``` javascript
+const multiply = (x,y) => x * y;
+const square = (x) => multiply (x, x);
+const isRightTriangle = (a,b,c) => {
+   square(a) + square(b) === square(c)
+}
+isRightTriangle(3,4,5);
+```
+
+### JS is single threaded
+one thing at a time, does that mean do we need to wait for longer actions, The answer is NO, there are ways around
+
+### Callbacks - how do they work?
+callback function is a function you specify to an existing function/method, to be invoked when an action is completed, requires additional processing, etc.
+Example
+``` javascript
+
+console.log(" first-- ");
+setTimeout(() => {
+   // call back function
+   console.log('after three secs');
+}, 3000);
+console.log('second');
+
+```
+
+ Browser does the work 
+ 
+### how does Browsers work?
+Browsers come with webAPIs that are able to handle certain tasks in the background (like making requests or setTimeouts)
+JS call stack recognizes these webAPI functions and passes them off to the browser to take care of.
+Once the browser finishes those tasks, It puts them in callback Queue and JS eventloop will keep checking if there is anything in that queue if they  return to the queue by browser then they are pushed onto the stack as callbacks by event loop, then JS will execute them.
+
+### Event loop
+The event loop is a constantly running process that monitors both the callback queue and the call stack. If the call stack is not empty, the event loop waits until it is empty and places the next function from the callback queue to the call stack.
 
 
+### call back hell
+In this, each callback takes arguments that have been obtained as a result of previous callbacks. This kind of callback structure leads to lesser code readability and maintainability. We can avoid the callback hell with the help of Promises. Promises in javascript are a way to handle asynchronous operations in Node.
 
+### Promises
+A promise is an object representing the eventual completion or failure of an asynchronous operation
+``` javascript
+const examplePromise = (url) => {
+   return new Promise((resolve, reject) => {
+         const delay = Math.floor(Math.random()*4500);
+         setTimeout(() => {
+            if(delay >4000) {
+               reject('connection time out');
+            } else { 
+               resolve('success');
+            }
+         }, delay);
+   });
+}
+
+```
+With promises you could use them two ways
+
+``` javascript
+examplePromise('abc.com').then(() => {
+   examplePromise('def.com').then(() => {
+      examplePromise('ghi.com').then(() => {
+         console.log('ghi success');
+      }).catch((e) => {
+          console.log('ghi fail');
+      });
+   }).catch((e) => {
+        console.log('def fail');
+      });
+}).catch((e) => {
+     console.log('abc fail');
+});
+```
+
+or you could chain them
+
+
+``` javascript
+examplePromise('abc.com').then(() => {
+  console.log('abc success');
+  return examplePromise('def.com');
+  }).then(() => {
+      console.log('def success');
+      return examplePromise('ghi.com');
+  }).then(() => {
+      console.log('ghi success');
+  }).catch((e) => {
+      console.log(' any failed');
+  });
+```
 
