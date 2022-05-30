@@ -191,6 +191,7 @@ Properties:-
 - style
 
 ### Event Bubling
+It is a process that starts with the element that triggered the event and then bubbles up to the containing elements in the hierarchy.
 
 ``` html
 ...
@@ -206,5 +207,28 @@ Properties:-
 Now when you click on button you would see two alerts, first button clicked and second paragraph clicked. event bubbles up from origin to all the way highest level. sometimes we want that effect. Several other times you dont. if we dont want that behaviour we could add `event.stopPropagation()` in the listener where bubbling starts in this case its button.
 
 ### Event Delegation
+
+Event Delegation is basically a pattern to handle events efficiently. Instead of adding an event listener to each and every similar element, we can add an event listener to a parent element and call an event on a particular target using the . target property of the event object.
+
+``` html
+...
+<ul id="tweets" onClick="ul been clicked">
+   <li> hi </li>
+   <li> hello </li>
+</ul>
+...
+
+```
+
+if we clicked on `li` , even if our listener on `ul` we would get listened in `ul` but `event.target` would be  `li` 
+eg:
+``` javascript
+if event.target.nodeName === LI {
+  event.target.remove();
+}
+```
+
+
+
 
 
