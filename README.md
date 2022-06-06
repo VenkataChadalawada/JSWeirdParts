@@ -326,3 +326,316 @@ examplePromise('abc.com').then(() => {
   });
 ```
 
+#### Example full promise
+
+#### Async Await - syntactic sugar for Promises
+
+```javascript
+const sing = async () => {
+throw new Error('problem'); 
+return `LALALALA`
+}
+
+sing.then(() => {
+console.log('Promise resolved');
+})
+.catch(err => {
+console.log('eeror'+err);
+});
+```
+
+``` javascript
+const login(usr, pass) => {
+if(!usr || !pass) throw 'Missing Credentials'
+if(pass === '1234') return 'Welcome'
+throw 'Invalid pass';
+}
+
+login('ajhd').then(msg => {
+console.log('error');
+}).catch(err =>{
+console.log('error');
+});
+```
+
+### with Await
+``` javascript
+async function rainbow() {
+await func1();
+await func2(abc);
+return 'all done';
+};
+
+async function printRainbow() {
+await rainbow();
+console.log('end of rainbow');
+}
+
+printRainbow() ;
+```
+
+#### how to handle errors in async await
+
+- 1 use good old fashion try and catch
+
+``` javascript
+const fakeRequest = (url) => {
+return new Promise((resolve, reject) => {
+const delay = Math.floor(Math.random()*4500)+500;
+setTimeout(() =>
+ {
+if(delay >4000){
+reject('connection Timeout')
+} else {
+resolve(`here is your fake data from ${url}`)
+}
+}, delay);
+})
+}
+}
+
+async function makeTwoRequests(){
+try{
+let data1 = await fakeRequest('/page1');
+console.log(data1);
+} catch(e) {
+  console.log('error'+e);
+}
+}
+
+
+```
+
+### OOP 
+
+#### Prototypes
+JS objects inherits features from one another
+
+* note: remember arrays are objects in javascript
+
+> Array.prototype
+
+>String.prototype
+
+we can add our own
+``` javascript
+String.prototype.grumps = () =. alert('go away');
+const cat = 'Blue';
+cat.grumpus();
+
+
+String.prototype.yell = 
+function(){
+console.log(this);
+return `${this.toUpperCase()}`;
+};
+
+// you can over ride too
+Array.prototype.pop = function(){
+return 'sorry no pop for you';
+};
+
+
+const dog = 'tim';
+dog.__proto__
+
+__proto__ is the reference to prototype
+remember you should not need to do anything on this.
+
+```
+
+#### factory functions
+
+``` javascript
+function hex(r, g, b){
+  return '#'+((1<<24) + (r<<16) + (g<<8) +b).toString(16).slice(1);
+}
+hex(255, 100, 25);
+
+// -----
+function makeColor(r,g,b) {
+const color = {};
+color.r = r;
+color.g = g;
+color.b = b;
+color.rgb = function() {
+const {r,g,b} = this;
+return `rgb(${r}, ${g},  ${b})`;
+};
+color.hex = function (){
+  return '#'+((1<<24) + (r<<16) + (g<<8) +b).toString(16).slice(1);
+}
+
+return color;
+}
+
+const firstColor = makeColor(35, 255, 150);
+firstColor.hex()
+ 
+```
+
+####  constructor function
+people use this pattern instead of factory function
+
+instead of using their own copy we will use one function 
+
+#### new keyword
+/* 1) creates a blank, plain javascript object;
+2) Links (sets the constructor of) this object to another object;
+3) Passes the newly created object from Step1 as the this context;
+4) returns this if the function doesnt return its own object.
+
+*/
+function Color(r,g,b) {
+this.r = r;
+this.g = g;
+this.b =b;
+console.log(this);
+}
+
+Color(30,40, 50);
+// if we call Color directly `this` refers to `window`
+
+new Color(30, 40, 50);
+
+```
+// to add a method
+``` javascript
+
+function Color(r,g,b) {
+this.r = r;
+this.g = g;
+this.b =b;
+}
+
+Color.prototype.rgb = function(){
+const {r,g,b} = this;
+return `rgb(${r}, ${g}, ${b})`;
+};
+
+Color.prototype.hex = function (){
+  return '#'+((1<<24) + (r<<16) + (g<<8) +b).toString(16).slice(1);
+}
+// usage 
+const a = new Color(30, 40, 50);
+a.rgb();
+
+```
+
+note: dont use arrow functions remember they behave differently and change this scope
+
+### Classes
+syntactic sugar for prototypes like above - advantage we dont have to break up things and gives more structure
+
+class Color {
+constructor(r, g, b) {
+// executes immediately as soon as it calles for one time
+ this.r = r;
+this.b = b;
+this.g = g;
+this.name = name;
+}
+// methods
+greet() { 
+// it shows up in this class  __proto__ like prototype as above
+return `hellow from ${this.name}`;
+}
+
+rgb(){
+const {r,g,b} = this;
+return `rgb(${r}, ${g}, ${b})`;
+}
+
+hex(){
+return '#'+((1<<24) + (r<<16) + (g<<8) +b).toString(16).slice(1);
+}
+}
+
+// usage
+const c1 = new Color(255, 67, 89, 'tomato');
+c1.greet();
+
+```
+we can call a method in constructor to be called immediately
+
+```
+constructor(r, g, b) {
+// executes immediately as soon as it calles for one time
+ this.r = r;
+this.b = b;
+this.g = g;
+this.name = name;
+this.calculateColorIndex();
+}
+
+```
+#### Extends & Super
+
+``` javascript
+class Cat{
+constructor(name, age){
+this.name = name;
+this.age = age;
+}
+eat(){
+return `${this.name} is eating!`;
+}
+meow(){
+return 'Meoww';
+}
+
+}
+
+class Dog{
+constructor(name, age){
+this.name = name;
+this.age = age;
+}
+eat(){
+return `${this.name} is eating!`;
+}
+bark(){
+return 'Boww
+}
+}
+```
+
+we can save this repeating func
+
+``` javascript
+class Pet{
+constructor(name, age){
+this.name = name;
+this.age = age;
+}
+eat(){
+return `${this.name} is eating!`;
+}
+}
+
+class Cat extends Pet{
+// say you wanna add additional values during intializing cat
+constructor(name, age, livesLeft=9){
+super(name, age); // reuse from super class
+this.livesLeft = livesLeft;
+}
+meow(){
+return 'Meoww';
+}
+}
+
+class Dog extends Pet{
+bark(){
+return 'Boww
+}
+// method overriding
+eat() {
+ return `${this.name} scarfs his food`;
+}
+}
+```
+```
+const dog1 = new dog('jaki', 13);
+dog1.eat()
+const cat1 = new Cat('monty', 9)
+```
