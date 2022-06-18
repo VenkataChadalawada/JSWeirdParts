@@ -1,5 +1,7 @@
 ## Big O - Arrays
+
 ``` javascript
+
 const arr1 = ['a', 'b', 'c'];
 const arr2 = ['d', 'e', 'f'];
 
