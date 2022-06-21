@@ -55,7 +55,6 @@ function sumZero(arr){
 
 sumZero([-4, -3, -2, -1, 0, 3, 1, 5, 10]);
 
-```
 
 // countUniqueValues
 function countUniquevalues(arr){
